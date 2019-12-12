@@ -46,6 +46,7 @@ public class Gold {
             }
             else if (response.equals("individual")) {
                 planType = "Individual";
+                deductible = 500;
                 break;
             }
             else {
