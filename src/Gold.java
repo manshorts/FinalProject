@@ -1,24 +1,23 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class Gold {
+public class Gold extends Estimator {
     Scanner keyboard = new Scanner(System.in);
 
     private String subscriber, planType;
     private double usedDeductible = 0, deductible = 0, remainingDeductible = 0, hsaFunds = 0;
     private double coInsurance;
-    private double cost = 0;
     private double patientOOP = 0;
 
     public Gold() {}
 
     public String getSubscriber() {
-        System.out.println("Are you the subscriber (y/n): ");
+        System.out.println("Are you the subscriber? ");
         String response;
         while (true) {
             response = keyboard.nextLine().trim().toLowerCase();
             if (response.equals("y")) {
-                subscriber = "Scott Donner";
+                subscriber = name;
                 break;
             }
             else if (response.equals("n")) {
@@ -27,7 +26,7 @@ public class Gold {
                 break;
             }
             else {
-                System.out.println("Error. Please enter y/n for your answer.  Are you the subscriber?");
+                System.out.println("Please enter y/n for your answer: ");
             }
         }
 
@@ -104,42 +103,9 @@ public class Gold {
         return hsaFunds;
     }
 
-    public double getCoInsurance() {
-        System.out.println("Is the procedure in-network or out-of-network?");
-        String inOrOut;
-        while (coInsurance == 0) {
-            inOrOut = keyboard.nextLine().trim().toLowerCase();
-            if (inOrOut.equals("in")){
-                coInsurance = .8;
-                break;
-            }
-            else if (inOrOut.equals("out")) {
-                coInsurance = .5;
-                break;
-            }
-            else {
-                System.out.println("Please enter \"in\" for in-network and \"out\" for out-of-network: ");
-            }
-        }
-        return coInsurance;
-    }
-
-    public double getCost(){
-        System.out.println("Please enter the cost of the procedure: ");
-        while(cost == 0) {
-            try{
-                cost = keyboard.nextDouble();
-                break;
-            }
-            catch (InputMismatchException e) {
-                System.out.println("Please enter an amount for the procedure using only numbers.");
-                keyboard.nextLine();
-            }
-        }
-        return cost;
-    }
-
-    public double OutOfPocket(double cost, double deductible, double coInsurance, double hsa) {
+    public double OutOfPocket(double cost, double coInsurance, double hsa) {
+        cost = super.getCost();
+        coInsurance = super.getCoInsurance();
         hsa = hsaFunds;
         patientOOP = cost - remainingDeductible;
         patientOOP = patientOOP - (patientOOP * coInsurance) - hsa;
@@ -152,11 +118,10 @@ public class Gold {
     public String StringOutPut() {
         String s = "\nSubscriber: " + subscriber
                 + "\nPlan type: " + planType
-                + "\nMaximum Deductible: " + String.format("$%.2f", deductible)
                 + "\nRemaining Deductible: " + String.format("$%.2f", remainingDeductible)
                 + "\nHSA amount remaining: " + String.format("$%.2f", hsaFunds)
-                + "\nProcedure cost: " + String.format("$%.2f", cost)
                 + "\nPatient Out-of-pocket: " + String.format("$%.2f", patientOOP);
+        s += super.StringOutPut();
         return s;
     }
 }
