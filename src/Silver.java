@@ -6,8 +6,6 @@ public class Silver extends Estimator {
 
     private String subscriber, planType;
     private double usedDeductible = 0, deductible = 0, remainingDeductible = 0;
-    private double coInsurance;
-    private double cost = 0;
     private double patientOOP = 0;
 
     public Silver() {}
@@ -18,7 +16,7 @@ public class Silver extends Estimator {
         while (true) {
             response = keyboard.nextLine().trim().toLowerCase();
             if (response.equals("y")) {
-                subscriber = "Scott Donner";
+                subscriber = name;
                 break;
             }
             else if (response.equals("n")) {

@@ -6,7 +6,6 @@ public class Gold extends Estimator {
 
     private String subscriber, planType;
     private double usedDeductible = 0, deductible = 0, remainingDeductible = 0, hsaFunds = 0;
-    private double coInsurance;
     private double patientOOP = 0;
 
     public Gold() {}
