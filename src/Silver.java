@@ -117,6 +117,7 @@ public class Silver extends Estimator {
         return s;
     }
 
+
     /*Create a method that will create an array of of the data that was displayed to the user.
     This array will include:
     Name, Plan type, cost of procedure, and out-of-pocket expense

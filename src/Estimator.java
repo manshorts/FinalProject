@@ -75,5 +75,4 @@ public class Estimator {
         return "\nPatient Name: " + name +
                 "\nProcedure Cost: " + String.format("$%.2f", cost);
     }
-
 }
