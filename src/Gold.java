@@ -89,6 +89,7 @@ public class Gold extends Estimator {
     //Calculate the remaining deductible using the plan deductible - used deductible
     public double getRemainingDeductible() {
         remainingDeductible = deductible - usedDeductible;
+        if (remainingDeductible < 0) {remainingDeductible = 0;}
         return remainingDeductible;
     }
 
@@ -98,14 +99,15 @@ public class Gold extends Estimator {
     */
     public double getHsaFunds() {
         String response;
+        System.out.println("Do you have an HSA? ");
         while (true) {
-            System.out.println("Do you have an HSA (y/n): ");
             response = keyboard.nextLine().trim().toLowerCase();
             if (response.equals("y")) {
                 System.out.println("Please enter the available amount of HSA funds: ");
                 while (hsaFunds == 0){
                     try{
                         hsaFunds = keyboard.nextDouble();
+                        break;
                     }
                     catch (InputMismatchException e) {
                         System.out.println("Please enter the available amount using only numbers.");
@@ -118,7 +120,7 @@ public class Gold extends Estimator {
                 break;
             }
             else {
-                System.out.println("Please enter y/n for your answer.");
+                System.out.println("Please enter y/n for your answer:");
             }
         }
         return hsaFunds;
@@ -132,6 +134,7 @@ public class Gold extends Estimator {
         coInsurance = super.getCoInsurance();
         hsa = hsaFunds;
         patientOOP = cost - remainingDeductible;
+        if (cost < remainingDeductible) { patientOOP = cost;}
         patientOOP = patientOOP - (patientOOP * coInsurance) - hsa;
         if (patientOOP < 0) {
             patientOOP = 0;

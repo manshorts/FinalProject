@@ -87,6 +87,7 @@ public class Silver extends Estimator {
     //Calculate the remaining deductible using the plan deductible - used deductible
     public double getRemainingDeductible() {
         remainingDeductible = deductible - usedDeductible;
+        if (remainingDeductible < 0) {remainingDeductible = 0;}
         return remainingDeductible;
     }
 
@@ -99,6 +100,7 @@ public class Silver extends Estimator {
         cost = super.getCost();
         coInsurance = super.getCoInsurance();
         patientOOP = cost - remainingDeductible;
+        if (cost < remainingDeductible) { patientOOP = cost;}
         patientOOP = patientOOP - (patientOOP * coInsurance);
         if (patientOOP < 0) {
             patientOOP = 0;
