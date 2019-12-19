@@ -1,6 +1,13 @@
 
 import java.util.Scanner;
 
+/*
+This is the main class to execute the program
+This will ask the user if they have the gold or silver plan and determine which derived class to run
+Check if the user enters the correct plan and ask to re-input if not
+Any future insurance plans could easily be added
+*/
+
 public class Main {
 
     public static void main(String[] args) {
@@ -16,6 +23,7 @@ public class Main {
                 double coInsurance = goldPlan.getCoInsurance();
                 String subscriber = goldPlan.getSubscriber();
                 String planType = goldPlan.getPlanType();
+                double usedDeductible = goldPlan.getUsedDeductible();
                 double remainingDeductible = goldPlan.getRemainingDeductible();
                 double hsaFunds = goldPlan.getHsaFunds();
                 double patientOOP = goldPlan.OutOfPocket(procedureCost,coInsurance,hsaFunds);
@@ -28,6 +36,7 @@ public class Main {
                 double coInsurance = silverPlan.getCoInsurance();
                 String subscriber = silverPlan.getSubscriber();
                 String planType = silverPlan.getPlanType();
+                double usedDeductible = silverPlan.getUsedDeductible();
                 double remainingDeductible = silverPlan.getRemainingDeductible();
                 double patientOOP = silverPlan.OutOfPocket(procedureCost,coInsurance);
                 System.out.println(silverPlan.StringOutPut());
