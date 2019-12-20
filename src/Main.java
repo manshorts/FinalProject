@@ -1,4 +1,4 @@
-
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 /*
@@ -10,7 +10,7 @@ Any future insurance plans could easily be added
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         Scanner keyboard = new Scanner(System.in);
         System.out.println("Is this a gold plan or silver plan? Enter \"gold\" or \"silver\": ");
         String response;
@@ -28,6 +28,7 @@ public class Main {
                 double hsaFunds = goldPlan.getHsaFunds();
                 double patientOOP = goldPlan.OutOfPocket(procedureCost,coInsurance,hsaFunds);
                 System.out.println(goldPlan.StringOutPut());
+                System.out.println(goldPlan.writeFile());
                 break;
             } else if (response.equals("silver")) {
                 Silver silverPlan = new Silver();
@@ -40,11 +41,12 @@ public class Main {
                 double remainingDeductible = silverPlan.getRemainingDeductible();
                 double patientOOP = silverPlan.OutOfPocket(procedureCost,coInsurance);
                 System.out.println(silverPlan.StringOutPut());
+                System.out.println(silverPlan.writeFile());
                 break;
             } else {
                 System.out.println("Error. Please enter \"gold\" or \"silver\": ");
-            }
 
+            }
         }
     }
 }

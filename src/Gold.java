@@ -1,4 +1,6 @@
+import java.io.*;
 import java.util.InputMismatchException;
+import java.util.Scanner;
 
 //The Gold class inherits all properties of the parent class Estimator
 //And is one of the two options of insurance plans the user might have
@@ -11,8 +13,10 @@ public class Gold extends Estimator {
     private double usedDeductible = 0, deductible = 0, remainingDeductible = 0, hsaFunds = 0;
     private double patientOOP = 0;
 
+
     //no-arg default constructor
-    public Gold() {}
+    public Gold() {
+    }
 
     /*
     Ask if the user is the subscriber, if yes the name inputted in the Estimator class will be used
@@ -26,13 +30,11 @@ public class Gold extends Estimator {
             if (response.equals("y")) {
                 subscriber = name;
                 break;
-            }
-            else if (response.equals("n")) {
+            } else if (response.equals("n")) {
                 System.out.println("Please enter the subscriber's first and last name: ");
                 subscriber = keyboard.nextLine();
                 break;
-            }
-            else {
+            } else {
                 System.out.println("Please enter y/n for your answer: ");
             }
         }
@@ -54,13 +56,11 @@ public class Gold extends Estimator {
                 planType = "Family";
                 deductible = 1000;
                 break;
-            }
-            else if (response.equals("individual")) {
+            } else if (response.equals("individual")) {
                 planType = "Individual";
                 deductible = 500;
                 break;
-            }
-            else {
+            } else {
                 System.out.println("Error. Please enter \"family\" or \"individual\": ");
             }
         }
@@ -89,7 +89,9 @@ public class Gold extends Estimator {
     //Calculate the remaining deductible using the plan deductible - used deductible
     public double getRemainingDeductible() {
         remainingDeductible = deductible - usedDeductible;
-        if (remainingDeductible < 0) {remainingDeductible = 0;}
+        if (remainingDeductible < 0) {
+            remainingDeductible = 0;
+        }
         return remainingDeductible;
     }
 
@@ -104,22 +106,19 @@ public class Gold extends Estimator {
             response = keyboard.nextLine().trim().toLowerCase();
             if (response.equals("y")) {
                 System.out.println("Please enter the available amount of HSA funds: ");
-                while (hsaFunds == 0){
-                    try{
+                while (hsaFunds == 0) {
+                    try {
                         hsaFunds = keyboard.nextDouble();
                         break;
-                    }
-                    catch (InputMismatchException e) {
+                    } catch (InputMismatchException e) {
                         System.out.println("Please enter the available amount using only numbers.");
                         keyboard.nextLine();
                     }
                 }
                 break;
-            }
-            else if (response.equals("n")) {
+            } else if (response.equals("n")) {
                 break;
-            }
-            else {
+            } else {
                 System.out.println("Please enter y/n for your answer:");
             }
         }
@@ -134,7 +133,9 @@ public class Gold extends Estimator {
         coInsurance = super.getCoInsurance();
         hsa = hsaFunds;
         patientOOP = cost - remainingDeductible;
-        if (cost < remainingDeductible) { patientOOP = cost;}
+        if (cost < remainingDeductible) {
+            patientOOP = cost;
+        }
         patientOOP = patientOOP - (patientOOP * coInsurance) - hsa;
         if (patientOOP < 0) {
             patientOOP = 0;
@@ -156,13 +157,25 @@ public class Gold extends Estimator {
         return s;
     }
 
-    /*Create a method that will create an array of of the data that was displayed to the user.
-    This array will include:
-    Name, Plan type, cost of procedure, and out-of-pocket expense
-    Then ask the user if they would like to continue with procedure request
-    If Yes: Write the information that was created in the array to a data.txt file
-            Ask the user their Physicians Name. Display the information from the saved data file and state the following message:
-            Thank you - the following information has been sent to your physician.
-     If No: Display the message: Thank you for using the cost estimator and have a good day.
-     */
+    //Save the cost of the procdure and the out of pocket expense to a file for the user
+    public String writeFile() throws FileNotFoundException {
+        File data_file = new File("data.txt");
+        double i = cost;
+        double j = patientOOP;
+        String savedFile = null;
+        try (PrintWriter output = new PrintWriter(data_file)) {
+            output.println(i);
+            output.println(j);
+        }catch (FileNotFoundException e) {
+            System.out.println("Can't Find the data.txt file");
+            System.exit(1);
+        }
+        Scanner input = new Scanner(data_file);
+        while (input.hasNext()) {
+            double saveCost = input.nextDouble();
+            double saveOP = input.nextDouble();
+            savedFile = "Your procedure cost of " + String.format("$%.2f", saveCost) + " and out of pocket cost of " + String.format("$%.2f", saveOP) + " have been saved to the file.";
+        }
+        return savedFile;
+    }
 }
